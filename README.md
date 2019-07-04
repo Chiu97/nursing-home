@@ -1,3 +1,7 @@
+### 智能养老项目管理系统
+
+这个项目主要是对https://github.com/yezihaohao/react-admin 进行修改,来完成实训项目WEB部分
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
