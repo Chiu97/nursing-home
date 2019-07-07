@@ -109,12 +109,12 @@ class InfoTable extends React.Component {
                                                 >
                                                     Save
                                                 </Button>
-                                                <Button
+                                                {/* <Button
                                                     onClick={() => this.handleDelete(record.id)}
                                                     style={{ marginRight: 8 }}
                                                 >
                                                     Delete
-                                                </Button>
+                                                </Button> */}
                                                 <Button />
                                             </div>
 										)}

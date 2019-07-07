@@ -1,22 +1,29 @@
 import React, { Component } from 'react';
 import { Card, Form, Input, Tooltip, Icon,  Select, Row, Col, Checkbox, Button } from 'antd';
 import Url from '../../routes/Url';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+import {getOldmanData} from '../helper/getOldman';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
+const validUser = {"uid":1,
+"permissions":["auth","auth/testPage","auth/authPage","auth/authPage/edit","auth/authPage/visit"],
+"role":"系统管理员",
+"roleType":1,
+"userName":"管理员"}
 
 class Registers extends Component {
     state = {
         validRegister: false,
         confirmDirty: false,
     };
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 const registerUrl = Url + '/register';
-                console.log('Received values of form: ', values);
+                console.log('Get user id:'+values['id']);
                 fetch(registerUrl,{
                     method: 'POST',
                     headers: {
@@ -29,6 +36,11 @@ class Registers extends Component {
                 .then(data => data["valid"])
                 .then(validMsg => {
                     if(validMsg==="done"){
+                        getOldmanData();
+                        const cId = values['id'];
+                        localStorage.setItem('user', JSON.stringify(validUser));
+                        console.log("validUser",localStorage.getItem('user'));
+                        localStorage.setItem("currentUser",cId);
                         this.setState({validRegister: true});
                     }else{
                         window.alert("此ID已被占用");

@@ -2,37 +2,74 @@ import React from 'react';
 import { Row, Col, Card } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import OldManTable from './OldManTable';
-// import InfoTable from './InfoTable';
+import {getOldmanData} from '../helper/getOldman';
+var fs = require('browserify-fs');
+// var testData = require('../../routes/oldman.json');
+// testData.forEach( data => {
+//     console.log("Data.id:"+data.id+",data.telephone"+data.telephone);
+// });
+let writeToOldmanJson = (dataSource) => {
+    let dataString = JSON.stringify(dataSource);
+    fs.writeFile("../../routes/oldman.json",dataString,function(err){
+        if(err){
+            console.log(err);
+        }
+        console.log("成功写入");
+    });
+}
 
-const data = [{
+let oldmanLocal = (dataSource) => {
+    let dataString = JSON.stringify(dataSource);
+    localStorage.setItem("oldmanData",dataString);
+    let oldmanData = localStorage.getItem("oldmanData");
+    console.log("所获得的oldman data:"+oldmanData);
+}
+
+// localStorage.removeItem("oldmanData");
+// getOldmanData();
+// console.log("get oldman:" + localStorage.getItem("oldmanData"));
+let data = [{
     id: '001',
     name: '老人一号',
-    age: 47,
-    telephone: '12340',
+    tel: '9527',
     gender: 'male',
     editable: true,
-    firstguardian: '监护人一号',
-    phoneOfFirstGuardian: '1231231',
+    first_guardian_name: '监护人一号',
+    first_guardian_tel: '1231231',
     character: 'oldman',
+    relationship: 1,
+    avatarUrl: "/aaa",
+    check_in_date: "2019-01-03",
+    check_out_date: "2018-02-14"
 },{
     id: '002',
     name: '老人二号',
-    age: 233,
-    telephone: '12342',
+    tel: '12342',
     gender: 'female',
-    firstguardian: '监护人二号',
-    phoneOfFirstGuardian: '123331',
+    first_guardian_name: '监护人二号',
+    first_guardian_tel: '123331',
     character: 'oldman',
+    relationship: 0,
+    avatarUrl: "/bbb",
+    check_in_date: "2019-01-22",
+    check_out_date: "2018-02-04"
 },{
-    id: '003',
+    id: '004',
     name: '老人三号',
-    age: 99,
-    telephone: '12343',
+    tel: '12343',
     gender: 'male',
-    firstguardian: '监护人三号',
-    phoneOfFirstGuardian: '12323',
+    first_guardian_name: '监护人三号',
+    first_guardian_tel: '12323',
     character: 'oldman',
+    relationship: 2,
+    avatarUrl: "/ccc",
+    check_in_date: "2019-01-03",
+    check_out_date: "2018-05-14",
 }]
+
+if(localStorage.getItem("oldmanData")!==null){
+    data = JSON.parse(localStorage.getItem("oldmanData"));
+}
 
 const OldManTables = () => (
     <div className="gutter-example">

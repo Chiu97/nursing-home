@@ -1,10 +1,12 @@
 
 import React from 'react';
 import { Table, Input, InputNumber, Popconfirm, Form, Button } from 'antd';
+import Url from '../../routes/Url';
 // import OldManTables from './OldManTables';
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
+const oldpersonUrl = Url + "/oldperson";
 
 const EditableRow = ({ form, index, ...props }) => (
 	<EditableContext.Provider value={form}>
@@ -72,14 +74,8 @@ class OldManTableA extends React.Component {
 				editable: true,
 			},
 			{
-				title: 'Age',
-                dataIndex: 'age',
-				width: '5%',
-				editable: true,
-			},
-			{
 				title: '电话',
-				dataIndex: 'telephone',
+				dataIndex: 'tel',
 				width: '10%',
 				editable: true,
 			},{
@@ -88,13 +84,13 @@ class OldManTableA extends React.Component {
 				width: '5%',
 				editable: false,
 			},{
-                title: 'Firstguardian',
-                dataIndex: 'firstguardian',
-                width: '5%',
+                title: 'first guardian',
+                dataIndex: 'first_guardian_name',
+                width: '15%',
                 editable: true,
             },{
 				title: '第一监护人电话',
-				dataIndex: 'phoneOfFirstGuardian',
+				dataIndex: 'first_guardian_tel',
 				width: '10%',
 				editable: true,
 			},
@@ -165,6 +161,28 @@ class OldManTableA extends React.Component {
 	
 	handleSubmit = () => {
 		console.log("data:"+JSON.stringify(this.state.data));
+
+		console.log('老人数据'+JSON.stringify(this.state.data));
+		let sendToServer = JSON.stringify(this.state.data);
+		fetch(oldpersonUrl,{
+			method: 'POST',
+			headers: {
+				'Content-Type' : 'application/json'
+			},
+			mode: 'cors',
+			body: JSON.stringify(sendToServer)
+		}
+			)
+			.then( resp => resp.json())
+			.then( data => data["valid"])
+			.then( validMsg => {
+				if(validMsg==='done'){
+					console.log("OK,服务器已经接收了数据");
+				}else{
+					console.log("sorry,服务器发生未知错误");
+				}
+			});
+
 	}
 
     handleAdd = () => {
@@ -196,9 +214,53 @@ class OldManTableA extends React.Component {
 					...item,
 					...row,
 				});
+
+				// let sendToServer = JSON.stringify(newData);
+				// console.log('老人数据'+JSON.stringify(sendToServer));
+				// fetch(oldpersonUrl,{
+				// 	method: 'POST',
+				// 	headers: {
+				// 		'Content-Type' : 'application/json'
+				// 	},
+				// 	mode: 'cors',
+				// 	body: JSON.stringify(sendToServer)
+				// }
+				// 	)
+				// 	.then( resp => resp.json())
+				// 	.then( data => data["valid"])
+				// 	.then( validMsg => {
+				// 		if(validMsg==='done'){
+				// 			console.log("OK,服务器已经接收了数据");
+				// 		}else{
+				// 			console.log("sorry,服务器发生未知错误");
+				// 		}
+				// 	});
+
 				this.setState({ data: newData, editingKey: '' });
 			} else {
 				newData.push(this.state.data);
+
+				// console.log('老人数据'+JSON.stringify(newData));
+				// let sendToServer = JSON.stringify(newData);
+				// fetch(oldpersonUrl,{
+				// 	method: 'POST',
+				// 	headers: {
+				// 		'Content-Type' : 'application/json'
+				// 	},
+				// 	mode: 'cors',
+				// 	body: JSON.stringify(sendToServer)
+				// }
+				// 	)
+				// 	.then( resp => resp.json())
+				// 	.then( data => data["valid"])
+				// 	.then( validMsg => {
+				// 		if(validMsg==='done'){
+				// 			console.log("OK,服务器已经接收了数据");
+				// 		}else{
+				// 			console.log("sorry,服务器发生未知错误");
+				// 		}
+				// 	});
+
 				this.setState({ data: newData, editingKey: '' });
 			}
 		});

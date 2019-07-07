@@ -7,7 +7,6 @@ import OldManTable from './management/OldManTables';
 import Volunteer from './management/Volunteers';
 import Dashboard from './dashboard/Dashboard';
 import Modify from './personalInfo/Modify';
-// import AdvanceEdiableTable from './management/AdvanceEdiableTable';
 
 const WysiwygBundle = Loadable({ // 按需加载富文本配置
     loader: () => import('./ui/Wysiwyg'),

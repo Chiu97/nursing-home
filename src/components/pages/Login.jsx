@@ -5,6 +5,7 @@ import { PwaInstaller } from '../widget';
 import { connectAlita } from 'redux-alita';
 import { Link } from 'react-router-dom';
 import Url from '../../routes/Url';
+import {getOldmanData} from '../helper/getOldman';
 
 const FormItem = Form.Item;
 
@@ -24,6 +25,7 @@ class Login extends React.Component {
             history.push('/app/dashboard/index');
         }
     }
+    
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -45,9 +47,11 @@ class Login extends React.Component {
                     body: JSON.stringify(sendToServer)
                 }
                     ).then(resp => resp.json())
-                    .then(data => data["niubi"])
+                    .then(data => data["valid"])
                     .then(niubi => {
                         if(niubi==='done'){
+                            getOldmanData();
+                            localStorage.setItem("currentUser",values.userName);
                             this.setState({wrongPassword:false})
                             console.log('niubi done');
                             setAlitaState({ funcName: 'admin', stateName: 'auth'});
