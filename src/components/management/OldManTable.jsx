@@ -1,18 +1,17 @@
 
 import React from 'react';
 import { Table, Input, InputNumber, Popconfirm, Form, Button } from 'antd';
-import Url from '../../routes/Url';
+import {oldpersonPostUrl, addARow, sendImgs} from '../../routes/Url';
 // import OldManTables from './OldManTables';
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
-const oldpersonUrl = Url + "/oldperson";
-
 const EditableRow = ({ form, index, ...props }) => (
 	<EditableContext.Provider value={form}>
 		<tr {...props} />
 	</EditableContext.Provider>
 );
+let submitAndSend = false;
 
 const EditableFormRow = Form.create()(EditableRow);
 class EditableCell extends React.Component {
@@ -65,12 +64,12 @@ class OldManTableA extends React.Component {
 			{
 				title: 'Id',
                 dataIndex: 'id',
-				width: '15%',
+				width: '5%',
 				editable: true,
 			},{
 				title: '姓名',
                 dataIndex: 'name',
-				width: '15%',
+				width: '10%',
 				editable: true,
 			},
 			{
@@ -93,6 +92,11 @@ class OldManTableA extends React.Component {
 				dataIndex: 'first_guardian_tel',
 				width: '10%',
 				editable: true,
+			},{
+				title: '微笑次数',
+				dataIndex: 'smile_count',
+				width: '10%',
+				editable: false,
 			},
 			{
                 title: 'Operation',
@@ -164,7 +168,7 @@ class OldManTableA extends React.Component {
 
 		console.log('老人数据'+JSON.stringify(this.state.data));
 		let sendToServer = JSON.stringify(this.state.data);
-		fetch(oldpersonUrl,{
+		fetch(oldpersonPostUrl,{
 			method: 'POST',
 			headers: {
 				'Content-Type' : 'application/json'
@@ -177,7 +181,7 @@ class OldManTableA extends React.Component {
 			.then( data => data["valid"])
 			.then( validMsg => {
 				if(validMsg==='done'){
-					console.log("OK,服务器已经接收了数据");
+					console.log("OldmanTable:OK,服务器已经接收了数据");
 				}else{
 					console.log("sorry,服务器发生未知错误");
 				}
@@ -194,13 +198,24 @@ class OldManTableA extends React.Component {
             gender: 'male',
 			firstguardian: 'unknown',
 			phoneOfFirstGuardian: 'unknown',
-        }
+		}
+		fetch(addARow)
+		.then(console.log("成功发送调用摄像头请求"))
+		.catch( err => {console.log("发送调动摄像头请求失败,error:"+err)})
+
+		submitAndSend = true;
         this.setState({ data: [...this.state.data, newRow]});
     };
 
 	save(form, id) {
-        console.log('save,key'+id);
-
+		console.log('save,key'+id);
+		
+		if(submitAndSend){
+			fetch(sendImgs)
+			.then(console.log("成功发送图片"))
+			.catch( err => { console.log("发送图片失败,err:" + err) })
+			submitAndSend = false;
+		}
 		form.validateFields((error, row) => {
 			if (error) {
 				return;

@@ -3,34 +3,40 @@ import { Row, Col, Card } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import InfoTable from './InfoTable';
 
-const data = [{
+let data = [{
     id: '001',
-    name: '管理员一号',
+    name: '工作人员一号',
     age: 51,
-    telephone: '123',
+    tel: '11',
+    hire_date: '2019-04-02',
     gender: 'male'
 },{
     id: '002',
-    name: '管理员二号',
-    age: 23,
-    telephone: '2131',
+    name: '工作人员二号',
+    age: 23,    hire_date: '2019-03-04',
+    tel: '11',
     gender: 'female'
 },{
     id: '003',
-    name: '管理员三号',
+    name: '工作人员三号',
     age: 61,
-    telephone: '432',
+    tel: '11',
+    hire_date: '2019-07-22',
     gender: 'male'
 }]
 
-const Administrators = () => (
+if(localStorage.getItem("employeeData")!==null){
+    data = JSON.parse(localStorage.getItem("employeeData"));
+}
+
+const Employees = () => (
     <div className="gutter-example">
         <BreadcrumbCustom first="管理信息" second="管理员信息" />
         <Row>
             <Col className="gutter-row" md={24}>
                 <div className="gutter-box">
                     <Card title="管理员信息">
-                        <InfoTable data={data} />
+                        <InfoTable data={data} character={'2'} />
                     </Card>
                 </div>
             </Col>
@@ -38,4 +44,4 @@ const Administrators = () => (
     </div>
 );
 
-export default Administrators;
+export default Employees;

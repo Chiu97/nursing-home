@@ -2,12 +2,13 @@
 import OldManTable from './management/OldManTables';
 import Volunteer from './management/Volunteers';
 import Dashboard from './dashboard/Dashboard';
-import Administrator from './management/Administrators';
+import Employees from './management/Employee';
 import Modify from './personalInfo/Modify';
+import MyDashboard from './dashboard/MyDashboard';
 
 
 export default {
     OldManTable, Modify,
-    Dashboard, 
-    Volunteer, Administrator,
+    Dashboard, MyDashboard,
+    Volunteer, Employees,
 }

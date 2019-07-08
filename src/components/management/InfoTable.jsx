@@ -1,9 +1,11 @@
 
 import React from 'react';
 import { Table, Input, InputNumber, Popconfirm, Form, Button } from 'antd';
+import {volunteerPostUrl,employeePostUrl} from '../../routes/Url';
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
+var sendUrl = "";
 
 const EditableRow = ({ form, index, ...props }) => (
 	<EditableContext.Provider value={form}>
@@ -81,7 +83,7 @@ class InfoTable extends React.Component {
 			},
 			{
 				title: 'Telephone',
-				dataIndex: 'telephone',
+				dataIndex: 'tel',
 				width: '20%',
 				editable: true,
 			},{
@@ -173,7 +175,36 @@ class InfoTable extends React.Component {
 	};
 
 	handleSubmit = () => {
-		console.log("data:"+JSON.stringify(this.state.data));
+		if(this.props.character==='1'){
+			console.log("is volunteer");
+			sendUrl = volunteerPostUrl;
+		}else if(this.props.character==='2'){
+			console.log("is employee")
+			sendUrl = employeePostUrl;
+		}else{
+			console.log("Send Url error");
+		}
+		let sendToServer = JSON.stringify(this.state.data);
+		console.log('info-table:sendToServer:'+sendToServer);
+		fetch(sendUrl,{
+			method: 'POST',
+			headers: {
+				'Content-Type' : 'application/json'
+			},
+			mode: 'cors',
+			body: JSON.stringify(sendToServer)
+		}
+			)
+			.then( resp => resp.json())
+			.then( data => data["valid"])
+			.then( validMsg => {
+				if(validMsg==='done'){
+					console.log("Infotable:OK,server accepted");
+				}else{
+					console.log("sorry,server error");
+				}
+			})
+			.catch (err => console.log(err));
 	}
 	
 	save(form, id) {

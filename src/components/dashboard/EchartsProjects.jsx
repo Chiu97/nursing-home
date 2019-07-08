@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
 
+//xAxisData是横轴 , data是纵轴对应的数据
 let xAxisData = [];
 let data = [];
 for (let i = 0; i < 50; i++) {
@@ -34,7 +35,7 @@ const option = {
     visualMap: {
         show: false,
         min: 0,
-        max: 50,
+        max: 100,
         dimension: 0,
         inRange: {
             color: ['#4a657a', '#308e92', '#b1cfa5', '#f5d69f', '#f5898b', '#ef5055']
@@ -82,7 +83,7 @@ const option = {
             }
         }
     }, {
-        name: '完成项目数',
+        name: '次数',
         type: 'bar',
         data: data,
         xAxisIndex: 1,

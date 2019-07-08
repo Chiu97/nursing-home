@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Form, Input, Tooltip, Icon,  Select, Row, Col, Checkbox, Button } from 'antd';
-import Url from '../../routes/Url';
+import {registerPostUrl} from '../../routes/Url';
 import { Redirect } from 'react-router-dom';
 import {getOldmanData} from '../helper/getOldman';
 const FormItem = Form.Item;
@@ -22,9 +22,8 @@ class Registers extends Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                const registerUrl = Url + '/register';
                 console.log('Get user id:'+values['id']);
-                fetch(registerUrl,{
+                fetch(registerPostUrl,{
                     method: 'POST',
                     headers: {
                         'Content-Type' : 'application/json'
@@ -41,6 +40,7 @@ class Registers extends Component {
                         localStorage.setItem('user', JSON.stringify(validUser));
                         console.log("validUser",localStorage.getItem('user'));
                         localStorage.setItem("currentUser",cId);
+                        window.alert("成功创建账号!");
                         this.setState({validRegister: true});
                     }else{
                         window.alert("此ID已被占用");
@@ -94,14 +94,14 @@ class Registers extends Component {
             },
         };
         if(this.state.validRegister){
-            return (<Redirect to="/app/dashboard/index" />)
+            return (<Redirect to="/login" />)
         }else{
         return (
-        <div className="gutter-example" >
+        <div className="gutter-example register" >
             {/* <BreadcrumbCustom  /> */}
-            <Row gutter={16}>
-                <Col className="gutter-row" md={8} />
-                <Col className="gutter-row" md={8}>
+            <Row className="register-form">
+                {/* <Col className="gutter-row" md={8} /> */}
+                <Col className="gutter-row" md={24}>
                     <div className="gutter-box">
                         <Card title="注册表单" bordered={false}>
                             <Form onSubmit={this.handleSubmit}>

@@ -1,35 +1,30 @@
-// deprecated , use infotable.jsx instead(reuseablity)
 import React from 'react';
 import { Table, Input, InputNumber, Popconfirm, Form, Button } from 'antd';
 
-// const data = [];
-// for (let i = 0; i < 100; i++) {
-// 	data.push({
-// 		key: i.toString(),
-// 		name: `Edrward ${i}`,
-// 		age: 32,
-// 		address: `London Park no. ${i}`,
-// 	});
-// }
-const data = [{
+let data = [{
     id: '001',
     name: '义工一号',
     age: 27,
-    telephone: '12341',
+    tel: '55',
     gender: 'male'
 },{
     id: '002',
     name: '义工二号',
     age: 23,
-    telephone: '12342',
+    tel: '55',
     gender: 'female'
 },{
     id: '003',
     name: '义工三号',
     age: 19,
-    telephone: '12343',
+    tel: '55',
     gender: 'male'
 }]
+
+if(localStorage.getItem("volunteerData")!==null){
+    data = JSON.parse(localStorage.getItem("volunteerData"));
+}
+
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
 

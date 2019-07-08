@@ -4,8 +4,11 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { PwaInstaller } from '../widget';
 import { connectAlita } from 'redux-alita';
 import { Link } from 'react-router-dom';
-import Url from '../../routes/Url';
-import {getOldmanData} from '../helper/getOldman';
+import { loginUrl } from '../../routes/Url'
+import { getOldmanData } from '../helper/getOldman';
+import { getVolunteerData } from '../helper/getVolunteer';
+import { getEmployeeData } from '../helper/getEmployee';
+import getSmile from '../helper/getSmile';
 
 const FormItem = Form.Item;
 
@@ -28,7 +31,11 @@ class Login extends React.Component {
     
     handleSubmit = (e) => {
         e.preventDefault();
+        getSmile();
         this.props.form.validateFields((err, values) => {
+            // localStorage.removeItem("oldmanData");
+            // localStorage.removeItem("volunteerData");
+            // localStorage.removeItem("employeeData");
             if (!err) {
                 // console.log('Received values of form: ', values);
                 const { setAlitaState } = this.props;
@@ -36,7 +43,6 @@ class Login extends React.Component {
                     "id": values.userName,
                     "password": values.password
                 }
-                const loginUrl = Url + '/login';
                 console.log('loginUrl:'+loginUrl);
                 fetch(loginUrl,{
                     method: 'POST',
@@ -51,6 +57,8 @@ class Login extends React.Component {
                     .then(niubi => {
                         if(niubi==='done'){
                             getOldmanData();
+                            getEmployeeData();
+                            getVolunteerData();
                             localStorage.setItem("currentUser",values.userName);
                             this.setState({wrongPassword:false})
                             console.log('niubi done');
@@ -61,11 +69,6 @@ class Login extends React.Component {
                         }
                     })
                     ;
-                // console.log(res);
-                // if(res==='done'){
-                //     console.log('??????');
-                //     setAlitaState({ funcName: 'admin', stateName: 'auth'});
-                // }
                 if (values.userName === 'admin' && values.password === 'admin') setAlitaState({ funcName: 'admin', stateName: 'auth' });
                 if (values.userName === 'guest' && values.password === 'guest') setAlitaState({ funcName: 'guest', stateName: 'auth' });
             }
