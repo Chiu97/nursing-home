@@ -11,12 +11,13 @@ const smileUrl = Url + '/smile';
 const invadeUrl = Url + '/invade';
 const forbidden = Url + '/forbidden';
 const fallUrl = Url + '/fall';
+const releaseVideo = Url + '/release';
 const addARow = 'http://localhost:1227/user';
 const sendImgs = 'http://localhost:1227/send';
 
 export 
 {
-    oldmanUrl,volunteerUrl,oldpersonPostUrl,loginUrl,
+    oldmanUrl,volunteerUrl,oldpersonPostUrl,loginUrl,releaseVideo,
     employeeUrl,volunteerPostUrl,employeePostUrl,registerPostUrl,
     smileUrl,invadeUrl,fallUrl,forbidden,addARow,sendImgs,
 };

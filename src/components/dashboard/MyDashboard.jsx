@@ -2,12 +2,13 @@ import React from 'react';
 import { Row, Col, Card, Timeline, Icon, Button } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import CustomChart from './CareEchart'
+import {releaseVideo} from '../../routes/Url';
 
 const VideoZone = ({videoConnect}) => {
     if(videoConnect){
         return <div> 视频正在播放 </div>
     }else{
-        return <div> 视频已关闭 </div>
+        return <div>视频已关闭</div>
     }
 }
 
@@ -19,6 +20,11 @@ class MyDashboard extends React.Component{
 
     videoControll = () => {
         let connectState = this.state.videoConnect;
+        if(this.state.videoConnect){
+            fetch(releaseVideo)
+            .then( resp => resp)
+            .catch( err => console.log(err));
+        }
         connectState = !connectState;
         this.setState({ videoConnect:connectState });
     }

@@ -12,6 +12,8 @@ class Modify extends React.Component{
     state = {
         aLink: '0',
         inputPwd: '',
+        inputOrigin: '',
+        rightPwd: false,
     }
 
     changeAvatar = () => {
@@ -27,6 +29,11 @@ class Modify extends React.Component{
         window.location.reload();
     }
 
+    handlePwdOrigin = (e) =>{
+        let newInput = e.target.value;
+        this.setState({'inputOrigin':newInput});
+    }
+
     handlePwdChange = (e) =>{
         let newInput = e.target.value;
         this.setState({inputPwd:newInput});
@@ -34,6 +41,11 @@ class Modify extends React.Component{
     }
 
     submitPwdChange = () => {
+        const currentPwd = localStorage.getItem('currentPassword');
+        if(this.state.inputOrigin!==currentPwd){
+            alert("输入原来的密码错误");
+            return;
+        }
         const data = {
             id:localStorage.getItem("currentUser"),
             password:this.state.inputPwd,
@@ -46,6 +58,8 @@ class Modify extends React.Component{
             mode: 'cors',
             body: JSON.stringify(data),
         }).then( response => response.json())
+        .then( data => console.log(data))
+        .then( window.alert("成功修改密码") );
     }
 
     render() {
@@ -53,9 +67,9 @@ class Modify extends React.Component{
             <div>
                 <BreadcrumbCustom />
                 <div>
-                    <Row>
-                        <Col span={10} />
-                        <Col span={12}>
+                    {/* <Row> */}
+                        {/* <Col span={10} /> */}
+                        {/* <Col span={12}>
                         {console.log('link:'+avatarList['0'])}
                             <Avatar src={avatarList[this.state.aLink]} alt="......" size={64}>
                             {console.log(localStorage.getItem("Avatar"))}
@@ -67,13 +81,14 @@ class Modify extends React.Component{
                             <Button size="default" type="primary" onClick={this.saveAvatar}>
                                 Save
                             </Button>
-                        </Col>  
-                    </Row>
+                        </Col>   */}
+                    {/* </Row> */}
                     <Row>
                         <Col span={10} />
                         <Col span={12}>
+                            <Input.Password placeholder="please input your origin password" />
                             <Input.Password placeholder="please input your new password" onChange={this.handlePwdChange.bind(this)}/>
-                            <Button >确认更改</Button>
+                            <Button onClick={this.submitPwdChange}>确认更改</Button>
                         </Col>
                     </Row>
                 </div>

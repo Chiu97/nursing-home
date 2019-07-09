@@ -134,7 +134,7 @@ class CustomChart extends React.Component{
 
     componentWillUpdate(){
         console.log("Component did update");
-        setTimeout(this.triggerChange,1000);
+        setTimeout(this.triggerChange,10000);
     }
 
     // componentDidMount(){

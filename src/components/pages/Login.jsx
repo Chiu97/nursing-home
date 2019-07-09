@@ -60,6 +60,7 @@ class Login extends React.Component {
                             getEmployeeData();
                             getVolunteerData();
                             localStorage.setItem("currentUser",values.userName);
+                            localStorage.set("currentPassword",values.password);
                             this.setState({wrongPassword:false})
                             console.log('niubi done');
                             setAlitaState({ funcName: 'admin', stateName: 'auth'});
