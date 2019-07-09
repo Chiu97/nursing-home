@@ -164,6 +164,13 @@ class OldManTableA extends React.Component {
 	handleSubmit = () => {
 		console.log("data:"+JSON.stringify(this.state.data));
 
+		if(submitAndSend){
+			fetch(sendImgs)
+			.then(console.log("成功发送图片"))
+			.catch( err => { console.log("发送图片失败,err:" + err) })
+			submitAndSend = false;
+		}
+
 		console.log('老人数据'+JSON.stringify(this.state.data));
 		let sendToServer = JSON.stringify(this.state.data);
 		fetch(oldpersonPostUrl,{
@@ -216,12 +223,7 @@ class OldManTableA extends React.Component {
 	save(form, id) {
 		console.log('save,key'+id);
 		
-		if(submitAndSend){
-			fetch(sendImgs)
-			.then(console.log("成功发送图片"))
-			.catch( err => { console.log("发送图片失败,err:" + err) })
-			submitAndSend = false;
-		}
+
 		form.validateFields((error, row) => {
 			if (error) {
 				return;
