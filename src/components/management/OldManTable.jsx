@@ -65,7 +65,7 @@ class OldManTableA extends React.Component {
 				title: 'Id',
                 dataIndex: 'id',
 				width: '5%',
-				editable: true,
+				editable: false,
 			},{
 				title: '姓名',
                 dataIndex: 'name',
@@ -190,8 +190,9 @@ class OldManTableA extends React.Component {
 	}
 
     handleAdd = () => {
-        const newRow = {
-            id: '00000',
+		let newId = "00" + String(parseInt(this.state.data[this.state.data.length-1].id) + 1) ;
+        let newRow = {
+            id: newId,
             name: 'unknown',
             age: 0,
             telephone: 'unknown',
