@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Card, Timeline, Icon, Button } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
-import CareEchart from './CareEchart'
+import CustomChart from './CareEchart'
 
 const VideoZone = ({videoConnect}) => {
     if(videoConnect){
@@ -50,7 +50,7 @@ class MyDashboard extends React.Component{
                 <Row gutter={10}>
                     <div>
                         <Card>
-                            <CareEchart />
+                            <CustomChart />
                         </Card>
                     </div>
                 </Row>

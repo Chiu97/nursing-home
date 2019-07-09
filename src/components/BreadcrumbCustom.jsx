@@ -5,11 +5,9 @@ import keepExec from './helper/keepExec'
 
 class BreadcrumbCustom extends React.Component {
     testKeep = (sec) => {
-        keepExec(sec);
+        // keepExec(sec);
     }
-    execute = () => {
-        console.log("测试重复")
-    }
+
     render() {
         const first = <Breadcrumb.Item>{this.props.first}</Breadcrumb.Item> || '';
         const second = <Breadcrumb.Item>{this.props.second}</Breadcrumb.Item> || '';
