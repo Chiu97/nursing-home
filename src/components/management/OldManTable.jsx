@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Table, Input, InputNumber, Popconfirm, Form, Button } from 'antd';
+import { Table, Input, InputNumber, Popconfirm, Form, Button, Icon } from 'antd';
 import {oldpersonPostUrl, addARow, sendImgs} from '../../routes/Url';
 // import OldManTables from './OldManTables';
 
@@ -99,8 +99,7 @@ class OldManTableA extends React.Component {
 				editable: false,
 			},
 			{
-                title: 'Operation',
-                dataIndex: 'operation',
+                title: '编辑',
                 width: '10%',
 				render: (text, record) => {
 					const editable = this.isEditing(record);
@@ -135,13 +134,12 @@ class OldManTableA extends React.Component {
 					);
 				},
 			},{
-                title: '删除',
-                dataIndex: 'deleteOperation',
-                key: 'deleteOperation',
+                title: '操作',
                 render: (text, record) => {
 					return (
 					<div>
 						{/* <Button >Delete</Button> */}
+						<Button type="primary" onClick={() => this.handleCollect(record.name)}><Icon type="video-camera" />采集人脸</Button>
 						<Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.id)}>
 							<Button type="danger">Delete</Button>
 						</Popconfirm>
@@ -200,13 +198,20 @@ class OldManTableA extends React.Component {
 			firstguardian: 'unknown',
 			phoneOfFirstGuardian: 'unknown',
 		}
-		fetch(addARow)
-		.then(console.log("成功发送调用摄像头请求"))
-		.catch( err => {console.log("发送调动摄像头请求失败,error:"+err)})
+		// fetch(addARow)
+		// .then(console.log("成功发送调用摄像头请求"))
+		// .catch( err => {console.log("发送调动摄像头请求失败,error:"+err)})
 
 		submitAndSend = true;
         this.setState({ data: [...this.state.data, newRow]});
-    };
+	};
+	
+	handleCollect = (name) => {
+		const sendLink = addARow + '/' + name;
+		fetch(sendLink)
+		.then(console.log("成功发送调用摄像头请求"))
+		.catch( err => console.log("发送调用摄像头请求失败,error:"+err))
+	}
 
 	save(form, id) {
 		console.log('save,key'+id);
