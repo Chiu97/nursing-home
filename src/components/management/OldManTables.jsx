@@ -72,15 +72,15 @@ let data = [{
 
 
 
-if(localStorage.getItem("oldmanData")!==null){
-    data = JSON.parse(localStorage.getItem("oldmanData"));
-    const newId = parseInt(data[data.length - 1].id) + 1;
-    localStorage.setItem("newId:",newId);
-}else{
-    const newId = parseInt(data[data.length - 1].id) + 1;
-    localStorage.setItem("newId:",newId);
-    localStorage.setItem("oldmanData",JSON.stringify(data));
-}
+// if(localStorage.getItem("oldmanData")!==null){
+//     data = JSON.parse(localStorage.getItem("oldmanData"));
+//     const newId = parseInt(data[data.length - 1].id) + 1;
+//     localStorage.setItem("newId:",newId);
+// }else{
+//     const newId = parseInt(data[data.length - 1].id) + 1;
+//     localStorage.setItem("newId:",newId);
+//     localStorage.setItem("oldmanData",JSON.stringify(data));
+// }
 
 const OldManTables = () => (
     <div className="gutter-example">
