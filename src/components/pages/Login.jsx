@@ -9,6 +9,7 @@ import { getOldmanData } from '../helper/getOldman';
 import { getVolunteerData } from '../helper/getVolunteer';
 import { getEmployeeData } from '../helper/getEmployee';
 import getSmile from '../helper/getSmile';
+import getChartData from '../helper/getChartData';
 
 const FormItem = Form.Item;
 
@@ -31,7 +32,8 @@ class Login extends React.Component {
     
     handleSubmit = (e) => {
         e.preventDefault();
-        getSmile();
+        getChartData();
+
         this.props.form.validateFields((err, values) => {
             // localStorage.removeItem("oldmanData");
             // localStorage.removeItem("volunteerData");

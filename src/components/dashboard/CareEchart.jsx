@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
+import getChartData from '../helper/getChartData';
 
 const data = ['周一','周二','周三','周四','周五','周六','周日'];
 let smileData = localStorage.getItem('smileData');
-let fallData = [2.0, 3.0, 2.0, 4.0, 5.0, 1.0, 1.0];
+let fallData = localStorage.getItem('fallData');
 let forbiddenData = localStorage.getItem('forbiddenData');
 let invadeData = localStorage.getItem('invadeData');
 let series = [];
@@ -144,6 +145,7 @@ class CustomChart extends React.Component{
 
 
     triggerChange = () => {
+        getChartData();
         const newTrigger = !this.state.trigger;
         this.setState({trigger:newTrigger});
         this.setState({date:new Date()})
