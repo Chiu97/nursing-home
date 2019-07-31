@@ -61,10 +61,10 @@ class HeaderCustom extends Component {
     };
     render() {
         let ava = avater;
-        console.log("HeaderCustom-myAvatar:"+localStorage.getItem("myAvatar"));
+        // console.log("HeaderCustom-myAvatar:"+localStorage.getItem("myAvatar"));
         if(localStorage.getItem("myAvatar")!==null){
             ava = localStorage.getItem("myAvatar");
-            console.log("HeaderCustom-avatar:"+ava);
+            // console.log("HeaderCustom-avatar:"+ava);
         }
         const { responsive = { data: {} }, path } = this.props;
         return (

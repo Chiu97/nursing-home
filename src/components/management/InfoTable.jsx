@@ -1,11 +1,15 @@
 
 import React from 'react';
-import { Table, Input, InputNumber, Popconfirm, Form, Button } from 'antd';
-import {volunteerPostUrl,employeePostUrl} from '../../routes/Url';
+import {Table, Input, InputNumber, Popconfirm, Form, Button, Icon} from 'antd';
+import {volunteerPostUrl, employeePostUrl, addARow, sendImgs} from '../../routes/Url';
+import {getEmployeeData} from '../helper/getEmployee'
+import {getVolunteerData} from "../helper/getVolunteer";
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
 var sendUrl = "";
+let tableData = "";
+let submitAndSend = false;
 
 const EditableRow = ({ form, index, ...props }) => (
 	<EditableContext.Provider value={form}>
@@ -59,7 +63,21 @@ class EditableCell extends React.Component {
 class InfoTable extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { data:props.data, editingKey: '' };
+		// if(this.props.data!==null){
+		// 	this.state = { data:tableData, editingKey: '' };
+		// }else{
+		// 	this.state = { data:[], editingKey: '' }
+		// }
+		if(this.props.character==='1'){
+			tableData = JSON.parse(localStorage.getItem("volunteerData"));
+		}else{
+			tableData = JSON.parse(localStorage.getItem( "employeeData"));
+		}
+		if(tableData === null)
+			this.state = {data:[], editingKey:''}
+		else{
+			this.state = {data:tableData, editingKey:''}
+		}
 		this.columns = [
 			{
 				title: 'Id',
@@ -141,6 +159,7 @@ class InfoTable extends React.Component {
                 render: (text, record) => {
 					return (
 					<div>
+						<Button type="primary" onClick={() => this.handleCollect(record.name)}><Icon type="video-camera" />采集人脸</Button>
 						{/* <Button >Delete</Button> */}
 						<Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.id)}>
 							<Button type="danger">Delete</Button>
@@ -151,6 +170,26 @@ class InfoTable extends React.Component {
             },
 		];
 	}
+
+	componentDidMount() {
+		getEmployeeData();
+		getVolunteerData();
+	}
+	//
+	// componentWillUpdate(){
+	// 	getEmployeeData();
+	// 	getVolunteerData();
+	// 	if(this.props.character==='1'){
+	// 		tableData = JSON.parse(localStorage.getItem('volunteerData'))
+	// 		this.setState({data:tableData})
+	// 	}else{
+	// 		tableData = JSON.parse(localStorage.getItem('employeeData'))
+	// 		this.setState({data:tableData})
+	// 	}
+	//
+	// }
+
+
 	isEditing = (record) => {
 		return record.id === this.state.editingKey;
 	};
@@ -184,6 +223,16 @@ class InfoTable extends React.Component {
 		}else{
 			console.log("Send Url error");
 		}
+
+		if(submitAndSend){
+			const sendLink = sendImgs+'/'+ localStorage.getItem('sendImgs');
+			console.log('sendLink:'+sendLink);
+			fetch(sendLink)
+				.then(console.log("成功发送图片"))
+				.catch( err => { console.log("发送图片失败,err:" + err) })
+			submitAndSend = false;
+		}
+
 		let sendToServer = JSON.stringify(this.state.data);
 		console.log('info-table:sendToServer:'+sendToServer);
 		fetch(sendUrl,{
@@ -200,12 +249,46 @@ class InfoTable extends React.Component {
 			.then( validMsg => {
 				if(validMsg==='done'){
 					console.log("Infotable:OK,server accepted");
+					getEmployeeData();
+					getVolunteerData();
+					setTimeout(this.updateTable,2000)
 				}else{
 					console.log("sorry,server error");
 				}
 			})
 			.catch (err => console.log(err));
 	}
+
+	updateTable = () => {
+		if(this.props.character==='1'){
+			tableData = JSON.parse(localStorage.getItem('volunteerData'))
+			this.setState({data:tableData})
+		}else{
+			tableData = JSON.parse(localStorage.getItem('employeeData'))
+			this.setState({data:tableData})
+		}
+	}
+
+	handleCollect = (name) => {
+		const sendLink = addARow + '/' + name;
+		localStorage.setItem('sendImgs',name);
+		submitAndSend = true;
+		fetch(sendLink)
+			.then(console.log("成功发送调用摄像头请求"))
+			.catch( err => console.log("发送调用摄像头请求失败,error:"+err))
+	}
+
+	// updateTable() {
+	// 	getEmployeeData();
+	// 	getVolunteerData();
+	// 	if(this.props.character==='1'){
+	// 		tableData = JSON.parse(localStorage.getItem('volunteerData'))
+	// 		this.setState({data:tableData})
+	// 	}else{
+	// 		tableData = JSON.parse(localStorage.getItem('employeeData'))
+	// 		this.setState({data:tableData})
+	// 	}
+	// }
 	
 	save(form, id) {
 

@@ -4,28 +4,29 @@ import BreadcrumbCustom from '../BreadcrumbCustom';
 // import Volunteer from './Volunteer';
 import InfoTable from './InfoTable';
 
-const data = [{
-    id: '001',
-    name: '义工一号',
-    age: 27,
-    telephone: '12344',
-    hire_date: '2014-04-04',
-    gender: 'male'
-},{
-    id: '002',
-    name: '义工二号',
-    age: 23,
-    telephone: '12342',
-    hire_date: '2018-03-05',
-    gender: 'female'
-},{
-    id: '003',
-    name: '义工三号',
-    age: 19,
-    telephone: '12343',
-    hire_date: '2019-06-21',
-    gender: 'male'
-}]
+const data = null;
+// const data = [{
+//     id: '001',
+//     name: '义工一号',
+//     age: 27,
+//     telephone: '12344',
+//     hire_date: '2014-04-04',
+//     gender: 'male'
+// },{
+//     id: '002',
+//     name: '义工二号',
+//     age: 23,
+//     telephone: '12342',
+//     hire_date: '2018-03-05',
+//     gender: 'female'
+// },{
+//     id: '003',
+//     name: '义工三号',
+//     age: 19,
+//     telephone: '12343',
+//     hire_date: '2019-06-21',
+//     gender: 'male'
+// }]
 
 class Volunteers extends React.Component {
     
@@ -38,7 +39,7 @@ class Volunteers extends React.Component {
                         <div className="gutter-box">
                             <Card title="义工人员" bordered={false}>
                                 {/* <Volunteer /> */}
-                                <InfoTable data={data} character={'1'}/>
+                                <InfoTable character = {'1'}/>
                             </Card>
                         </div>
                     </Col>

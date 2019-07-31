@@ -1,12 +1,32 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
 import getChartData from '../helper/getChartData';
+import UpdateOption from '../helper/updateOption';
+import OldmanChart from './oldmanChart'
+import echarts from 'echarts'
 
 const data = ['周一','周二','周三','周四','周五','周六','周日'];
-let smileData = localStorage.getItem('smileData');
-let fallData = localStorage.getItem('fallData');
-let forbiddenData = localStorage.getItem('forbiddenData');
-let invadeData = localStorage.getItem('invadeData');
+let smileData = String(localStorage.getItem('smileData')).split(',');
+let fallData = String(localStorage.getItem('fallData')).split(',');
+let forbiddenData = String(localStorage.getItem('forbiddenData')).split(',');
+let invadeData = String(localStorage.getItem('invadeData')).split(',');
+
+let PlayEchart = ({play,option}) =>{
+    // if(play){
+    //     return(<ReactEcharts
+    //         option={option}
+    //         style={{height: '212px', width: '100%'}}
+    //         className={'react_for_echarts'}
+    //     />);
+    // }
+    // console.log("实际上有在刷新哦");
+    return (<ReactEcharts
+        option={option}
+        style={{height: '212px', width: '100%'}}
+        className={'react_for_echarts'}
+    />);
+}
+
 let series = [];
 let smileSeries = 
     {
@@ -80,8 +100,7 @@ series.push(smileSeries);
 series.push(fallSeries);
 series.push(forbiddenSeries);
 series.push(invadeSeries);
-
-const option = {
+const option =  {
     title : {
         text: '老人一周微笑次数',
         subtext: '实时更新'
@@ -119,47 +138,96 @@ const option = {
     series : series
 };
 
-// const CareEchart = () => (
-//     <ReactEcharts
-//         option={option}
-//         style={{height: '212px', width: '100%'}}
-//         className={'react_for_echarts'}
-//     />
-// );
+const CareEchart = () => (
+    <ReactEcharts
+        option={option}
+        style={{height: '212px', width: '100%'}}
+        className={'react_for_echarts'}
+    />
+);
 
 class CustomChart extends React.Component{
     state = {
         trigger : true,
-        date : new Date()
+        date : new Date(),
+        play : true,
+        echartOption: option,
     }
 
+    // option =  {
+    //     title : {
+    //         text: '老人一周微笑次数',
+    //         subtext: '实时更新'
+    //     },
+    //     tooltip : {
+    //         trigger: 'axis'
+    //     },
+    //     legend: {
+    //         data:['微笑次数','跌倒次数','禁区次数','陌生人次数']
+    //     },
+    //     toolbox: {
+    //         show : true,
+    //         feature : {
+    //             mark : {show: true},
+    //             dataView : {show: true, readOnly: false},
+    //             magicType : {show: true, type: ['line', 'bar']},
+    //             restore : {show: true},
+    //             saveAsImage : {show: true}
+    //         }
+    //     },
+    //     calculable : true,
+    //     //x轴
+    //     xAxis : [
+    //         {
+    //             type : 'category',
+    //             data : data
+    //         }
+    //     ],
+    //     yAxis : [
+    //         {
+    //             type : 'value'
+    //         }
+    //     ],
+    //     // series代表的是同一横轴上的各个竖条
+    //     series : series
+    // };
+
     componentWillUpdate(){
-        console.log("Component did update");
+        // console.log("Component did update");
         setTimeout(this.triggerChange,10000);
     }
 
-    // componentDidMount(){
-    //     setTimeout(this.triggerChange,1000);
-    //     console.log("CareEchart did mount");
-    // }
+
 
 
     triggerChange = () => {
+        // console.log('play:'+this.state.play);
         getChartData();
         const newTrigger = !this.state.trigger;
-        this.setState({trigger:newTrigger});
-        this.setState({date:new Date()})
+        const newOption = UpdateOption();
+        this.setState({trigger:newTrigger, play:!this.state.play, date:new Date(), echartOption:newOption});
+        // this.setState({date:new Date()})
     }
 
+
+
     render(){
+        const getOption=()=>{
+            return UpdateOption();
+        }
         return(
             <div>
-                <p>{String(this.state.date)}</p>
-                <ReactEcharts
-                    option={option}
-                    style={{height: '212px', width: '100%'}}
-                    className={'react_for_echarts'}
-                />
+                <div>
+                    {/*<p>{String(this.state.date)}</p>*/}
+                    {/*<PlayEchart play={this.state.play} option={this.getOption}/>*/}
+                    <ReactEcharts
+                        // ref={ (e) => { refs.echartsReact = e; }}
+                        option={this.state.echartOption}
+                        style={{height: '212px', width: '100%'}}
+                        className={'react_for_echarts'}
+                    />
+                    <p>{String(this.state.date)}</p>
+                </div>
             </div>
         );
     }

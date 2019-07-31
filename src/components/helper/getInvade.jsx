@@ -4,7 +4,7 @@ function handleJson(jsonString){
     let jsonData = JSON.parse(jsonString);
     let invadeData = [];
     for( let val in jsonData){
-        invadeData.push(jsonData[val]);
+        invadeData.push(String(jsonData[val]));
     }
     localStorage.setItem('invadeData',invadeData);
 }

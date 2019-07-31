@@ -66,7 +66,7 @@ class SiderCustom extends Component {
                 collapsed={collapsed}
                 style={{ overflowY: 'auto' }}
             >
-                <div className="logo" />
+                {/*<div className="logo" > Care </div>*/}
                 <SiderMenu
                     menus={routes.menus}
                     onClick={this.menuClick}
@@ -74,6 +74,7 @@ class SiderCustom extends Component {
                     selectedKeys={[selectedKey]}
                     openKeys={firstHide ? null : [openKey]}
                     onOpenChange={this.openMenu}
+                    theme="dark"
                 />
                 <style>
                     {`
